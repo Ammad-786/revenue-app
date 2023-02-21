@@ -9,37 +9,30 @@ const Slider = () => {
     setValue(newValue);
   };
 
-  const getIndicatorColor = () => {
-    if (value <= 5000) {
-      return 'red';
-    } else if (value <= 10000) {
-      return 'orange';
-    } else {
-      return 'green';
-    }
-  };
-
   const progress = (value - 100) / (15000 - 100) * 100;
 
+  let indicatorColor;
+  if (value < 5000) {
+    indicatorColor = '#FF0000';
+  } else if (value < 10000) {
+    indicatorColor = '#FFA500';
+  } else {
+    indicatorColor = '#00FF00';
+  }
+
   return (
-    <div className="w-96 mx-auto relative">
-      <motion.div
-        className="absolute h-4 w-4 bg-white rounded-full shadow-xl"
-        style={{ x: `${progress}%`, backgroundColor: getIndicatorColor() }}
-        drag="x"
-        dragConstraints={{ left: 0, right: 220 }}
-        dragElastic={0.05}
-      />
+    <div className="w-96 mx-auto">
       <motion.div
         className="relative h-4 bg-gray-200 rounded-full overflow-hidden"
-        initial={{ width: 0 }}
-        animate={{ width: `${progress}%` }}
+        initial={{ scale: 1.2 }}
+        animate={{ scale: 1 }}
         transition={{ duration: 0.5 }}
       >
         <motion.div
           className="absolute top-0 left-0 h-full bg-blue-500 rounded-full"
-          initial={{ x: '-100%' }}
-          animate={{ x: 0 }}
+          style={{ width: `${progress}%`, backgroundColor: indicatorColor }}
+          initial={{ z: 200, scale: 0.8 }}
+          animate={{ z: 0, scale: 1 }}
           transition={{ duration: 0.5 }}
         />
       </motion.div>
